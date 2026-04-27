@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: xelatex
+  IMAGE_NAME: fjuonlinejudge/codebook-builder
 
 jobs:
   build:
@@ -36,9 +36,8 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Extract Docker tags 
+      # Extract Docker tags
       # git tag: v24.04.1 -> 24.04-1
-      # main push 
       - name: Extract tags
         id: meta
         run: |
@@ -49,9 +48,9 @@ jobs:
 
             DOCKER_TAG="${MAJOR_MINOR}-${PATCH}"
 
-            echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:${DOCKER_TAG},${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:latest" >> $GITHUB_ENV
+            echo "TAGS=${IMAGE_NAME}:${DOCKER_TAG},${IMAGE_NAME}:latest" >> $GITHUB_ENV
           elif [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
-            echo "TAGS=${{ secrets.DOCKERHUB_USERNAME }}/${IMAGE_NAME}:edge" >> $GITHUB_ENV
+            echo "TAGS=${IMAGE_NAME}:edge" >> $GITHUB_ENV
           else
             echo "TAGS=" >> $GITHUB_ENV
           fi
