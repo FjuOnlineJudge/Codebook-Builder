@@ -22,7 +22,10 @@ RUN apt-get update && apt-get install -y \
 # =========================
 # fonts cache
 # =========================
-RUN fc-cache -fv
+RUN apt-get update && apt-get install -y \
+    fonts-noto-cjk \
+    fonts-inconsolata \
+ && fc-cache -f -v
 
 # =========================
 # working directory
